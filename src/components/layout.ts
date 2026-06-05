@@ -100,7 +100,7 @@ export function renderApp(root: HTMLElement): void {
         <div id="unsupported-banner" class="mx-4 my-4 hidden shrink-0 rounded border border-danger-border bg-danger-bg-subtle px-3.5 py-2.5 text-[12px] leading-7 text-danger-light"></div>
 
         <main class="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] overflow-hidden">
-            <div id="main-content" class="flex min-h-0 flex-col overflow-y-auto">
+            <div id="main-content" class="flex min-h-0 flex-col overflow-x-hidden overflow-y-auto">
                 <section class="grid shrink-0 grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-px border-b border-border-grid bg-border-grid">
                     ${stats.map(statCard).join("")}
                 </section>
@@ -128,8 +128,8 @@ export function renderApp(root: HTMLElement): void {
                     </div>
                 </section>
 
-                <section class="flex shrink-0 items-center gap-3 overflow-hidden border-t border-border-grid bg-bg pl-4 pr-2 py-1 text-[10px]">
-                    <div class="flex min-w-0 flex-1 items-center gap-5 overflow-hidden">
+                <section class="flex shrink-0 items-center gap-3 border-t border-border-grid bg-bg pl-4 pr-2 py-1 text-[10px]">
+                    <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-1">
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">SPD avg/max</span> <strong id="ss-spd" class="text-text">--/--</strong></span>
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">CAD avg/max</span> <strong id="ss-cad" class="text-text">--/--</strong></span>
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">SL avg</span> <strong id="ss-sl-avg" class="text-text">--</strong></span>
