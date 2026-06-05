@@ -14,33 +14,33 @@ const chartDefs: Record<
   ChartKey,
   {
     id: string;
-    color: string;
-    fill: string;
+    colorVar: string;
+    fillVar: string;
     y: (sample: Sample) => number | null;
   }
 > = {
   distance: {
     id: "c-distance",
-    color: color("--c-success"),
-    fill: "var(--c-success-fill)",
+    colorVar: "--c-success",
+    fillVar: "--c-success-fill",
     y: (sample) => sample.distancePlotM,
   },
   pace: {
     id: "c-pace",
-    color: color("--c-purple"),
-    fill: "var(--c-purple-fill)",
+    colorVar: "--c-purple",
+    fillVar: "--c-purple-fill",
     y: (sample) => sample.paceMinPerKm,
   },
   speed: {
     id: "c-speed",
-    color: color("--c-accent"),
-    fill: "var(--c-accent-fill)",
+    colorVar: "--c-accent",
+    fillVar: "--c-accent-fill",
     y: (sample) => sample.speed,
   },
   cadence: {
     id: "c-cadence",
-    color: color("--c-cyan"),
-    fill: "var(--c-cyan-fill)",
+    colorVar: "--c-cyan",
+    fillVar: "--c-cyan-fill",
     y: (sample) => sample.cadence,
   },
 };
@@ -107,8 +107,8 @@ function makeChart(def: (typeof chartDefs)[ChartKey]): Chart {
       datasets: [
         {
           data: [],
-          borderColor: def.color,
-          backgroundColor: def.fill,
+          borderColor: color(def.colorVar),
+          backgroundColor: color(def.fillVar),
           borderWidth: 1.5,
           pointRadius: 0,
           pointHoverRadius: 4,

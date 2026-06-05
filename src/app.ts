@@ -319,6 +319,7 @@ async function init(): Promise<void> {
   initLog(refs.logScroller);
   initBle(refs, onPacket, () => syncScrubControls());
 
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
   charts = createCharts();
   bindEvents();
   setStatus("disconnected", STATUS_LABELS.disconnected);
