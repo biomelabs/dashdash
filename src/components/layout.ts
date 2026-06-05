@@ -1,6 +1,6 @@
 import { renderActionsMenu } from './actions-menu';
 import { renderConnectionDialog } from './connection-dialog';
-import type { ConnectionState } from './types';
+import type { ConnectionState } from '../types';
 
 const LABEL = 'text-label';
 

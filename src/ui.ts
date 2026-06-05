@@ -1,9 +1,9 @@
-import { updateConnectionDialog } from './connection-dialog';
+import { updateConnectionDialog } from './components/connection-dialog';
 import {
     BUTTON_CLASSES,
     STATUS_DOT_CLASSES,
     statusPillClass,
-} from './components';
+} from './components/layout';
 import {
     formatPaceSeconds,
     formatSeconds,

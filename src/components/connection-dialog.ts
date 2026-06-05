@@ -1,4 +1,4 @@
-import { PLACEHOLDER } from './format';
+import { PLACEHOLDER } from '../format';
 
 const LABEL = 'text-label';
 const VALUE = 'text-text';

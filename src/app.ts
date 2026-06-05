@@ -1,4 +1,4 @@
-import './main.css';
+import './styles/main.css';
 
 import {
     bindChartPreview,
@@ -7,9 +7,9 @@ import {
     renderCharts,
     setChartPreview,
 } from './charts';
-import { bindActionsMenu } from './actions-menu';
-import { bindConnectionDialog } from './connection-dialog';
-import { renderApp } from './components';
+import { bindActionsMenu } from './components/actions-menu';
+import { bindConnectionDialog } from './components/connection-dialog';
+import { renderApp } from './components/layout';
 import { parseRSC } from './rsc';
 import {
     applyBleSupportUI,
