@@ -1,8 +1,8 @@
 const MENU_BTN =
-    'flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded border border-border bg-surface-raised text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent';
+  "flex h-[30px] w-[30px] shrink-0 items-center justify-center rounded border border-border bg-surface-raised text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent";
 
 const MENU_ITEM =
-    'flex w-full items-center gap-2.5 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.06em] text-text transition hover:bg-accent-bg-subtle hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-text';
+  "flex w-full items-center gap-2.5 px-3 py-2 text-left text-[11px] font-semibold uppercase tracking-[0.06em] text-text transition hover:bg-accent-bg-subtle hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-text";
 
 const ICON_EXPORT = `
     <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
@@ -17,7 +17,7 @@ const ICON_CLEAR = `
 `;
 
 export function renderActionsMenu(): string {
-    return `
+  return `
         <div id="actions-menu" class="relative">
             <button
                 id="btn-actions-menu"
@@ -67,57 +67,59 @@ export function renderActionsMenu(): string {
 }
 
 export function bindActionsMenu({
-    onExport,
-    onClearRun,
+  onExport,
+  onClearRun,
 }: {
-    onExport: () => void;
-    onClearRun: () => void;
+  onExport: () => void;
+  onClearRun: () => void;
 }): {
-    btnExport: HTMLButtonElement;
-    btnClearRun: HTMLButtonElement;
-    close: () => void;
+  btnExport: HTMLButtonElement;
+  btnClearRun: HTMLButtonElement;
+  close: () => void;
 } {
-    const root = document.getElementById('actions-menu')!;
-    const btnMenu = document.getElementById('btn-actions-menu')!;
-    const panel = document.getElementById('actions-menu-panel')!;
-    const btnExport = document.getElementById('btn-export') as HTMLButtonElement;
-    const btnClearRun = document.getElementById('btn-clear-run') as HTMLButtonElement;
+  const root = document.getElementById("actions-menu")!;
+  const btnMenu = document.getElementById("btn-actions-menu")!;
+  const panel = document.getElementById("actions-menu-panel")!;
+  const btnExport = document.getElementById("btn-export") as HTMLButtonElement;
+  const btnClearRun = document.getElementById(
+    "btn-clear-run",
+  ) as HTMLButtonElement;
 
-    function setOpen(open: boolean): void {
-        panel.classList.toggle('hidden', !open);
-        btnMenu.setAttribute('aria-expanded', String(open));
-    }
+  function setOpen(open: boolean): void {
+    panel.classList.toggle("hidden", !open);
+    btnMenu.setAttribute("aria-expanded", String(open));
+  }
 
-    function close(): void {
-        setOpen(false);
-    }
+  function close(): void {
+    setOpen(false);
+  }
 
-    btnMenu.addEventListener('click', event => {
-        event.stopPropagation();
-        setOpen(panel.classList.contains('hidden'));
-    });
+  btnMenu.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setOpen(panel.classList.contains("hidden"));
+  });
 
-    btnExport.addEventListener('click', () => {
-        close();
-        onExport();
-    });
+  btnExport.addEventListener("click", () => {
+    close();
+    onExport();
+  });
 
-    btnClearRun.addEventListener('click', () => {
-        close();
-        onClearRun();
-    });
+  btnClearRun.addEventListener("click", () => {
+    close();
+    onClearRun();
+  });
 
-    document.addEventListener('click', event => {
-        if (!root.contains(event.target as Node)) close();
-    });
+  document.addEventListener("click", (event) => {
+    if (!root.contains(event.target as Node)) close();
+  });
 
-    document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') close();
-    });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") close();
+  });
 
-    return {
-        btnExport,
-        btnClearRun,
-        close,
-    };
+  return {
+    btnExport,
+    btnClearRun,
+    close,
+  };
 }

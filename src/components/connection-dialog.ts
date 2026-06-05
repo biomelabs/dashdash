@@ -1,12 +1,12 @@
-import { PLACEHOLDER } from '../format';
+import { PLACEHOLDER } from "../format";
 
-const LABEL = 'text-label';
-const VALUE = 'text-text';
+const LABEL = "text-label";
+const VALUE = "text-text";
 
-const ROW = 'grid grid-cols-[88px_minmax(0,1fr)] gap-2 px-3 py-1.5';
+const ROW = "grid grid-cols-[88px_minmax(0,1fr)] gap-2 px-3 py-1.5";
 
 export function renderConnectionDialog(): string {
-    return `
+  return `
         <div id="connection-info" class="relative min-w-0">
             <button
                 id="status-pill"
@@ -52,57 +52,57 @@ export function renderConnectionDialog(): string {
     `;
 }
 
-export function bindConnectionDialog(
-    { onOpenChange }: { onOpenChange?: (open: boolean) => void } = {}
-): { close: () => void } {
-    const root = document.getElementById('connection-info')!;
-    const btn = document.getElementById('status-pill')!;
-    const panel = document.getElementById('connection-dialog-panel')!;
+export function bindConnectionDialog({
+  onOpenChange,
+}: { onOpenChange?: (open: boolean) => void } = {}): { close: () => void } {
+  const root = document.getElementById("connection-info")!;
+  const btn = document.getElementById("status-pill")!;
+  const panel = document.getElementById("connection-dialog-panel")!;
 
-    function setOpen(open: boolean): void {
-        panel.classList.toggle('hidden', !open);
-        btn.setAttribute('aria-expanded', String(open));
-        onOpenChange?.(open);
-    }
+  function setOpen(open: boolean): void {
+    panel.classList.toggle("hidden", !open);
+    btn.setAttribute("aria-expanded", String(open));
+    onOpenChange?.(open);
+  }
 
-    function close(): void {
-        setOpen(false);
-    }
+  function close(): void {
+    setOpen(false);
+  }
 
-    btn.addEventListener('click', event => {
-        event.stopPropagation();
-        setOpen(panel.classList.contains('hidden'));
-    });
+  btn.addEventListener("click", (event) => {
+    event.stopPropagation();
+    setOpen(panel.classList.contains("hidden"));
+  });
 
-    document.addEventListener('click', event => {
-        if (!root.contains(event.target as Node)) close();
-    });
+  document.addEventListener("click", (event) => {
+    if (!root.contains(event.target as Node)) close();
+  });
 
-    document.addEventListener('keydown', event => {
-        if (event.key === 'Escape') close();
-    });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") close();
+  });
 
-    return { close };
+  return { close };
 }
 
 export function updateConnectionDialog({
-    statusLabel,
-    deviceName,
-    deviceId,
-    uptime,
+  statusLabel,
+  deviceName,
+  deviceId,
+  uptime,
 }: {
-    statusLabel?: string;
-    deviceName?: string;
-    deviceId?: string;
-    uptime?: string;
+  statusLabel?: string;
+  deviceName?: string;
+  deviceId?: string;
+  uptime?: string;
 }): void {
-    const connStatus = document.getElementById('conn-status');
-    const connDevice = document.getElementById('conn-device');
-    const connId = document.getElementById('conn-id');
-    const connUptime = document.getElementById('conn-uptime');
+  const connStatus = document.getElementById("conn-status");
+  const connDevice = document.getElementById("conn-device");
+  const connId = document.getElementById("conn-id");
+  const connUptime = document.getElementById("conn-uptime");
 
-    if (connStatus) connStatus.textContent = statusLabel ?? PLACEHOLDER;
-    if (connDevice) connDevice.textContent = deviceName ?? PLACEHOLDER;
-    if (connId) connId.textContent = deviceId ?? PLACEHOLDER;
-    if (connUptime) connUptime.textContent = uptime ?? PLACEHOLDER;
+  if (connStatus) connStatus.textContent = statusLabel ?? PLACEHOLDER;
+  if (connDevice) connDevice.textContent = deviceName ?? PLACEHOLDER;
+  if (connId) connId.textContent = deviceId ?? PLACEHOLDER;
+  if (connUptime) connUptime.textContent = uptime ?? PLACEHOLDER;
 }

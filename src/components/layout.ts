@@ -1,65 +1,69 @@
-import { renderActionsMenu } from './actions-menu';
-import { renderConnectionDialog } from './connection-dialog';
-import type { ConnectionState } from '../types';
+import { renderActionsMenu } from "./actions-menu";
+import { renderConnectionDialog } from "./connection-dialog";
+import type { ConnectionState } from "../types";
 
-const LABEL = 'text-label';
+const LABEL = "text-label";
 
 const BTN =
-    'rounded border border-border bg-surface-raised px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-surface-raised disabled:hover:text-text';
+  "rounded border border-border bg-surface-raised px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:border-border disabled:hover:bg-surface-raised disabled:hover:text-text";
 
 export const BUTTON_CLASSES = {
-    base: BTN,
-    primary:
-        'rounded border border-accent bg-accent-bg px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-accent transition hover:bg-accent-bg-hover disabled:cursor-not-allowed disabled:opacity-30',
-    danger:
-        'rounded border border-danger bg-surface-raised px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-danger transition hover:bg-danger-bg disabled:cursor-not-allowed disabled:opacity-30',
-    compact:
-        'rounded border border-border bg-surface-raised px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent disabled:cursor-not-allowed disabled:opacity-30',
+  base: BTN,
+  primary:
+    "rounded border border-accent bg-accent-bg px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-accent transition hover:bg-accent-bg-hover disabled:cursor-not-allowed disabled:opacity-30",
+  danger:
+    "rounded border border-danger bg-surface-raised px-3.5 py-1.5 text-[11px] font-semibold uppercase tracking-[0.06em] text-danger transition hover:bg-danger-bg disabled:cursor-not-allowed disabled:opacity-30",
+  compact:
+    "rounded border border-border bg-surface-raised px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-text transition hover:border-accent hover:bg-accent-bg hover:text-accent disabled:cursor-not-allowed disabled:opacity-30",
 };
 
-const STATUS_TEXT = 'transition-colors';
-const DOT_BASE = 'status-dot h-1.5 w-1.5 shrink-0 rounded-full';
+const STATUS_TEXT = "transition-colors";
+const DOT_BASE = "status-dot h-1.5 w-1.5 shrink-0 rounded-full";
 
 export const STATUS_CLASSES: Record<ConnectionState, string> = {
-    disconnected: `${STATUS_TEXT} text-muted`,
-    connecting: `${STATUS_TEXT} text-accent`,
-    connected: `${STATUS_TEXT} text-success`,
-    cancelled: `${STATUS_TEXT} text-accent`,
-    error: `${STATUS_TEXT} text-danger`,
+  disconnected: `${STATUS_TEXT} text-muted`,
+  connecting: `${STATUS_TEXT} text-accent`,
+  connected: `${STATUS_TEXT} text-success`,
+  cancelled: `${STATUS_TEXT} text-accent`,
+  error: `${STATUS_TEXT} text-danger`,
 };
 
 export const STATUS_DOT_CLASSES: Record<ConnectionState, string> = {
-    disconnected: `${DOT_BASE} status-dot-disconnected bg-muted`,
-    connecting: `${DOT_BASE} status-dot-connecting bg-accent`,
-    connected: `${DOT_BASE} status-dot-connected bg-success`,
-    cancelled: `${DOT_BASE} status-dot-cancelled bg-accent`,
-    error: `${DOT_BASE} status-dot-error bg-danger`,
+  disconnected: `${DOT_BASE} status-dot-disconnected bg-muted`,
+  connecting: `${DOT_BASE} status-dot-connecting bg-accent`,
+  connected: `${DOT_BASE} status-dot-connected bg-success`,
+  cancelled: `${DOT_BASE} status-dot-cancelled bg-accent`,
+  error: `${DOT_BASE} status-dot-error bg-danger`,
 };
 
 export const STATUS_PILL_BASE =
-    'status-pill-btn flex h-[30px] max-w-full items-center gap-2 rounded border border-border bg-surface-raised px-3 text-[10px] font-semibold uppercase tracking-[0.04em] transition hover:border-accent hover:bg-accent-bg hover:text-accent';
+  "status-pill-btn flex h-[30px] max-w-full items-center gap-2 rounded border border-border bg-surface-raised px-3 text-[10px] font-semibold uppercase tracking-[0.04em] transition hover:border-accent hover:bg-accent-bg hover:text-accent";
 
 export function statusPillClass(state: ConnectionState): string {
-    return `${STATUS_PILL_BASE} ${STATUS_CLASSES[state]}`;
+  return `${STATUS_PILL_BASE} ${STATUS_CLASSES[state]}`;
 }
 
 const stats: [string, string, string][] = [
-    ['Speed', 'v-speed', 'm/s'],
-    ['Pace', 'v-pace', 'min/km'],
-    ['Cadence', 'v-cadence', 'steps/min'],
-    ['Stride Length', 'v-stride', 'm'],
-    ['Distance', 'v-distance', 'm <span id="v-mode" class="ml-1 inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.1em]"></span>'],
+  ["Speed", "v-speed", "m/s"],
+  ["Pace", "v-pace", "min/km"],
+  ["Cadence", "v-cadence", "steps/min"],
+  ["Stride Length", "v-stride", "m"],
+  [
+    "Distance",
+    "v-distance",
+    'm <span id="v-mode" class="ml-1 inline-flex items-center gap-1 text-[9px] font-semibold uppercase tracking-[0.1em]"></span>',
+  ],
 ];
 
 const charts: [string, string, string][] = [
-    ['Distance', 'm', 'c-distance'],
-    ['Pace', 'min/km', 'c-pace'],
-    ['Speed', 'm/s', 'c-speed'],
-    ['Cadence', 'steps/min', 'c-cadence'],
+  ["Distance", "m", "c-distance"],
+  ["Pace", "min/km", "c-pace"],
+  ["Speed", "m/s", "c-speed"],
+  ["Cadence", "steps/min", "c-cadence"],
 ];
 
 function statCard([label, id, unit]: [string, string, string]): string {
-    return `
+  return `
         <section class="flex min-w-0 flex-col gap-0.5 bg-surface px-3 py-3">
             <span class="text-[9px] font-semibold uppercase tracking-[0.12em] ${LABEL}">${label}</span>
             <span id="${id}" class="font-mono text-[clamp(1.25rem,4vw,1.875rem)] font-semibold leading-none tracking-[-0.02em] text-text-bright transition-colors">--</span>
@@ -69,7 +73,7 @@ function statCard([label, id, unit]: [string, string, string]): string {
 }
 
 function chartPanel([label, unit, id]: [string, string, string]): string {
-    return `
+  return `
         <section class="chart-panel flex min-h-[120px] min-w-0 flex-col bg-surface px-3.5 pb-2.5 pt-3">
             <div class="mb-2 flex shrink-0 items-center justify-between">
                 <span class="text-[9px] font-semibold uppercase tracking-[0.12em] ${LABEL}">${label} · ${unit}</span>
@@ -82,7 +86,7 @@ function chartPanel([label, unit, id]: [string, string, string]): string {
 }
 
 export function renderApp(root: HTMLElement): void {
-    root.innerHTML = `
+  root.innerHTML = `
         <header class="flex h-[50px] shrink-0 items-center justify-between gap-3 border-b border-border-grid bg-surface px-[18px]">
             <div class="flex min-w-0 items-center">
                 ${renderConnectionDialog()}
@@ -98,11 +102,11 @@ export function renderApp(root: HTMLElement): void {
         <main class="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] overflow-hidden">
             <div id="main-content" class="flex min-h-0 flex-col overflow-y-auto">
                 <section class="grid shrink-0 grid-cols-[repeat(auto-fit,minmax(112px,1fr))] gap-px border-b border-border-grid bg-border-grid">
-                    ${stats.map(statCard).join('')}
+                    ${stats.map(statCard).join("")}
                 </section>
 
                 <section id="charts-area" class="charts-area grid min-h-[480px] flex-1 grid-cols-1 gap-px border-b border-border-grid bg-border-grid lg:min-h-[240px] lg:grid-cols-2">
-                    ${charts.map(chartPanel).join('')}
+                    ${charts.map(chartPanel).join("")}
                 </section>
             </div>
 
