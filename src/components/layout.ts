@@ -72,7 +72,12 @@ function statCard([label, id, unit]: [string, string, string]): string {
     `;
 }
 
-function chartPanel([label, unit, id, statsId]: [string, string, string, string]): string {
+function chartPanel([label, unit, id, statsId]: [
+  string,
+  string,
+  string,
+  string,
+]): string {
   return `
         <section class="chart-panel flex min-h-[120px] min-w-0 flex-col bg-surface px-3.5 pb-2.5 pt-3">
             <div class="mb-2 flex shrink-0 items-center justify-between gap-3">
@@ -122,9 +127,9 @@ export function renderApp(root: HTMLElement): void {
 
                 <section class="shrink-0 border-t border-border-grid bg-bg px-4 py-2.5">
                     <div class="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-muted">
-                        <span id="scrub-window" class="whitespace-nowrap">0:00 - 0:00</span>
+                        <span id="scrub-window" class="whitespace-nowrap">0:00-0:00</span>
                         <input id="scrub-range" class="scrub-range w-full" type="range" min="0" max="0" value="0" step="0.1" disabled>
-                        <button id="scrub-total" class="whitespace-nowrap border-0 bg-transparent p-0 text-right text-[inherit] transition hover:text-accent" type="button">TOTAL 0:00</button>
+                        <button id="scrub-total" class="scrub-total-btn whitespace-nowrap border-0 bg-transparent p-0 text-right text-[inherit] transition" type="button">TOTAL 0:00</button>
                     </div>
                 </section>
 
@@ -133,9 +138,9 @@ export function renderApp(root: HTMLElement): void {
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">PKT</span> <strong id="pkt-count" class="text-text">0</strong></span>
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">ET</span> <strong id="ss-elapsed" class="text-text">0:00</strong></span>
                     </div>
-                    <button id="btn-toggle-log" class="flex shrink-0 items-center gap-2.5 rounded-full my-px py-px px-2 text-[10px] font-semibold uppercase tracking-[0.06em] ${LABEL} transition hover:text-text" aria-controls="log-area" aria-expanded="false">
+                    <button id="btn-toggle-log" class="flex shrink-0 items-center gap-2.5 mx-2 my-0.5 py-px ${BUTTON_CLASSES.compact}" aria-controls="log-area" aria-expanded="false">
                         <span id="packet-log-chevron" class="packet-log-chevron"></span>
-                        <span>PKT LOG</span>
+                        <span>PACKET LOG</span>
                     </button>
                 </section>
             </div>

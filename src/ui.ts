@@ -104,9 +104,11 @@ export function updateScrubControls(
   refs.scrubRange.max = maxStart.toFixed(1);
   refs.scrubRange.value = nextViewStart.toFixed(1);
   refs.scrubRange.disabled = maxStart <= 0;
+  refs.scrubRange.classList.toggle("is-live", nextFollowTail && maxStart > 0);
+  refs.scrubRange.classList.toggle("is-scrubbing", !nextFollowTail && maxStart > 0);
 
   const visibleEnd = Math.min(duration, nextViewStart + viewWindowSeconds);
-  refs.scrubWindow.textContent = `${formatSeconds(nextViewStart)} - ${formatSeconds(visibleEnd)}`;
+  refs.scrubWindow.textContent = `${formatSeconds(nextViewStart)}-${formatSeconds(visibleEnd)}`;
   refs.scrubTotal.textContent = `TOTAL ${formatSeconds(duration)}`;
 
   const behindLive = !nextFollowTail && maxStart > 0;
@@ -157,7 +159,8 @@ export function stopElapsedTimer(): void {
 
 export function updateSessionStats(shouldFlash = false): void {
   const samples = getSamples();
-  const { sumSpd, maxSpd, sumCad, maxCad, sumPace, cntPace, minPace, maxDist } = getAccumStats();
+  const { sumSpd, maxSpd, sumCad, maxCad, sumPace, cntPace, minPace, maxDist } =
+    getAccumStats();
   const pkts = samples.length;
   const runStartMs = getRunStartMs();
 
@@ -182,8 +185,11 @@ export function updateSessionStats(shouldFlash = false): void {
 
   const csPace = document.getElementById("cs-pace");
   if (csPace) {
-    const avgPaceStr = cntPace ? formatPaceSeconds((sumPace / cntPace) * 60) : PLACEHOLDER;
-    const bestPaceStr = minPace !== null ? formatPaceSeconds(minPace * 60) : PLACEHOLDER;
+    const avgPaceStr = cntPace
+      ? formatPaceSeconds((sumPace / cntPace) * 60)
+      : PLACEHOLDER;
+    const bestPaceStr =
+      minPace !== null ? formatPaceSeconds(minPace * 60) : PLACEHOLDER;
     csPace.textContent = `AVG ${avgPaceStr}  BEST ${bestPaceStr} /KM`;
   }
 
