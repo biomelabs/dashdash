@@ -36,6 +36,10 @@ export interface AccumStats {
   maxCad: number;
   sumSL: number;
   cntSL: number;
+  sumPace: number;
+  cntPace: number;
+  minPace: number | null;
+  maxDist: number;
 }
 
 export interface RunMeta {
@@ -67,9 +71,6 @@ export interface Refs {
   vStride: HTMLElement;
   vDistance: HTMLElement;
   vMode: HTMLElement;
-  ssSpd: HTMLElement;
-  ssCad: HTMLElement;
-  ssSlAvg: HTMLElement;
   ssElapsed: HTMLElement;
   btnExport: HTMLButtonElement;
   btnClearRun: HTMLButtonElement;

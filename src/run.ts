@@ -14,6 +14,10 @@ let sumCad = 0;
 let maxCad = 0;
 let sumSL = 0;
 let cntSL = 0;
+let sumPace = 0;
+let cntPace = 0;
+let minPace: number | null = null;
+let maxDist = 0;
 
 let pendingSamples: Sample[] = [];
 let persistTimer: ReturnType<typeof window.setTimeout> | null = null;
@@ -28,7 +32,7 @@ export function getRunStartMs(): number | null {
 }
 
 export function getAccumStats(): AccumStats {
-  return { sumSpd, maxSpd, sumCad, maxCad, sumSL, cntSL };
+  return { sumSpd, maxSpd, sumCad, maxCad, sumSL, cntSL, sumPace, cntPace, minPace, maxDist };
 }
 
 export function currentMeta(): RunMeta | null {
@@ -108,6 +112,10 @@ export function resetAccum(): void {
   maxCad = 0;
   sumSL = 0;
   cntSL = 0;
+  sumPace = 0;
+  cntPace = 0;
+  minPace = null;
+  maxDist = 0;
 }
 
 export function accumulateSample(sample: Sample): void {
@@ -118,6 +126,14 @@ export function accumulateSample(sample: Sample): void {
   if (sample.strideLen !== null) {
     sumSL += sample.strideLen;
     cntSL += 1;
+  }
+  if (sample.paceMinPerKm !== null && Number.isFinite(sample.paceMinPerKm)) {
+    sumPace += sample.paceMinPerKm;
+    cntPace += 1;
+    minPace = minPace === null ? sample.paceMinPerKm : Math.min(minPace, sample.paceMinPerKm);
+  }
+  if (sample.distancePlotM !== null && Number.isFinite(sample.distancePlotM)) {
+    maxDist = Math.max(maxDist, sample.distancePlotM);
   }
 }
 

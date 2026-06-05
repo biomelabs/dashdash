@@ -21,7 +21,7 @@ export function renderConnectionDialog(): string {
             </button>
             <div
                 id="connection-dialog-panel"
-                class="absolute left-0 top-[calc(100%+6px)] z-50 hidden min-w-[240px] overflow-hidden rounded border border-border bg-surface-raised py-1 shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
+                class="absolute left-0 top-[calc(100%+6px)] z-50 hidden min-w-[340px] overflow-hidden rounded border border-border bg-surface-raised py-1 shadow-[0_12px_32px_rgba(0,0,0,0.45)]"
                 role="dialog"
                 aria-label="Connection details"
             >
@@ -36,7 +36,7 @@ export function renderConnectionDialog(): string {
                     </div>
                     <div class="${ROW}">
                         <span class="${LABEL} uppercase tracking-[0.06em]">BLE ID</span>
-                        <span id="conn-id" class="${VALUE} truncate font-mono text-[10px]">${PLACEHOLDER}</span>
+                        <span id="conn-id" class="${VALUE} font-mono text-[10px]">${PLACEHOLDER}</span>
                     </div>
                     <div class="${ROW}">
                         <span class="${LABEL} uppercase tracking-[0.06em]">Service</span>

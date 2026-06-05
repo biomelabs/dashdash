@@ -29,14 +29,14 @@
 }
 
 :root {
-  --c-bg: #07090d;
-  --c-surface: #0c1018;
-  --c-surface-raised: #111820;
-  --c-border-grid: #1a2535;
+  --c-bg: #04060a;
+  --c-surface: #080c13;
+  --c-surface-raised: #0c1219;
+  --c-border-grid: #18222f;
   --c-border: #243040;
   --c-hex: #2e4060;
-  --c-muted: #3d5068;
-  --c-label: #5c7088;
+  --c-muted: #4d6478;
+  --c-label: #728ca6;
   --c-text: #94a3b8;
   --c-text-bright: #e2e8f0;
   --c-accent: #f59e0b;

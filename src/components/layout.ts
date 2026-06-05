@@ -55,11 +55,11 @@ const stats: [string, string, string][] = [
   ],
 ];
 
-const charts: [string, string, string][] = [
-  ["Distance", "m", "c-distance"],
-  ["Pace", "min/km", "c-pace"],
-  ["Speed", "m/s", "c-speed"],
-  ["Cadence", "steps/min", "c-cadence"],
+const charts: [string, string, string, string][] = [
+  ["Distance", "m", "c-distance", "cs-distance"],
+  ["Pace", "min/km", "c-pace", "cs-pace"],
+  ["Speed", "m/s", "c-speed", "cs-speed"],
+  ["Cadence", "steps/min", "c-cadence", "cs-cadence"],
 ];
 
 function statCard([label, id, unit]: [string, string, string]): string {
@@ -72,11 +72,12 @@ function statCard([label, id, unit]: [string, string, string]): string {
     `;
 }
 
-function chartPanel([label, unit, id]: [string, string, string]): string {
+function chartPanel([label, unit, id, statsId]: [string, string, string, string]): string {
   return `
         <section class="chart-panel flex min-h-[120px] min-w-0 flex-col bg-surface px-3.5 pb-2.5 pt-3">
-            <div class="mb-2 flex shrink-0 items-center justify-between">
+            <div class="mb-2 flex shrink-0 items-center justify-between gap-3">
                 <span class="text-[9px] font-semibold uppercase tracking-[0.12em] ${LABEL}">${label} · ${unit}</span>
+                <span id="${statsId}" class="shrink-0 text-[9px] font-semibold uppercase tracking-[0.08em] ${LABEL}">AVG --  MAX --</span>
             </div>
             <div class="relative min-h-[72px] flex-1">
                 <canvas id="${id}"></canvas>
@@ -115,7 +116,6 @@ export function renderApp(root: HTMLElement): void {
                     <div id="log-resize-grip" class="log-resize-grip flex h-3 shrink-0 cursor-row-resize items-center justify-center border-b border-border-grid bg-bg"></div>
                     <div class="flex shrink-0 items-center justify-between border-b border-border-grid px-3.5 py-1.5">
                         <span class="text-[9px] font-semibold uppercase tracking-[0.12em] ${LABEL}">Packet Log</span>
-                        <span id="pkt-count" class="text-[9px] font-semibold ${LABEL}">0 pkts</span>
                     </div>
                     <div id="log-scroller" class="min-h-0 flex-1 overflow-y-auto py-1"></div>
                 </section>
@@ -130,9 +130,7 @@ export function renderApp(root: HTMLElement): void {
 
                 <section class="flex shrink-0 items-center gap-3 border-t border-border-grid bg-bg pl-4 pr-2 py-1 text-[10px]">
                     <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-5 gap-y-1">
-                        <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">SPD avg/max</span> <strong id="ss-spd" class="text-text">--/--</strong></span>
-                        <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">CAD avg/max</span> <strong id="ss-cad" class="text-text">--/--</strong></span>
-                        <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">SL avg</span> <strong id="ss-sl-avg" class="text-text">--</strong></span>
+                        <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">PKT</span> <strong id="pkt-count" class="text-text">0</strong></span>
                         <span class="whitespace-nowrap"><span class="${LABEL} tracking-[0.06em]">ET</span> <strong id="ss-elapsed" class="text-text">0:00</strong></span>
                     </div>
                     <button id="btn-toggle-log" class="flex shrink-0 items-center gap-2.5 rounded-full my-px py-px px-2 text-[10px] font-semibold uppercase tracking-[0.06em] ${LABEL} transition hover:text-text" aria-controls="log-area" aria-expanded="false">

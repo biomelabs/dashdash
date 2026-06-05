@@ -157,32 +157,43 @@ export function stopElapsedTimer(): void {
 
 export function updateSessionStats(shouldFlash = false): void {
   const samples = getSamples();
-  const { sumSpd, maxSpd, sumCad, maxCad, sumSL, cntSL } = getAccumStats();
+  const { sumSpd, maxSpd, sumCad, maxCad, sumPace, cntPace, minPace, maxDist } = getAccumStats();
   const pkts = samples.length;
   const runStartMs = getRunStartMs();
 
-  refs.pktCount.textContent = `${pkts} pkts`;
-  refs.ssSpd.textContent = pkts
-    ? `${(sumSpd / pkts).toFixed(2)}/${maxSpd.toFixed(2)} m/s`
-    : "--/--";
-  refs.ssCad.textContent = pkts
-    ? `${Math.round(sumCad / pkts)}/${maxCad} spm`
-    : "--/--";
-  refs.ssSlAvg.textContent = cntSL
-    ? `${(sumSL / cntSL).toFixed(2)} m`
-    : PLACEHOLDER;
+  refs.pktCount.textContent = String(pkts);
   refs.btnExport.disabled = pkts === 0;
   refs.btnClearRun.disabled = pkts === 0 && !runStartMs;
   updateElapsed();
 
+  const csSpeed = document.getElementById("cs-speed");
+  if (csSpeed) {
+    csSpeed.textContent = pkts
+      ? `AVG ${(sumSpd / pkts).toFixed(2)}  MAX ${maxSpd.toFixed(2)} M/S`
+      : "AVG --  MAX -- M/S";
+  }
+
+  const csCad = document.getElementById("cs-cadence");
+  if (csCad) {
+    csCad.textContent = pkts
+      ? `AVG ${Math.round(sumCad / pkts)}  MAX ${maxCad} SPM`
+      : "AVG --  MAX -- SPM";
+  }
+
+  const csPace = document.getElementById("cs-pace");
+  if (csPace) {
+    const avgPaceStr = cntPace ? formatPaceSeconds((sumPace / cntPace) * 60) : PLACEHOLDER;
+    const bestPaceStr = minPace !== null ? formatPaceSeconds(minPace * 60) : PLACEHOLDER;
+    csPace.textContent = `AVG ${avgPaceStr}  BEST ${bestPaceStr} /KM`;
+  }
+
+  const csDist = document.getElementById("cs-distance");
+  if (csDist) {
+    csDist.textContent = `TOTAL ${maxDist > 0 ? maxDist.toFixed(0) : PLACEHOLDER} M`;
+  }
+
   if (shouldFlash) {
-    [
-      refs.ssSpd,
-      refs.ssCad,
-      refs.ssSlAvg,
-      refs.ssElapsed,
-      refs.pktCount,
-    ].forEach(flash);
+    [refs.ssElapsed, refs.pktCount].forEach(flash);
   }
 }
 

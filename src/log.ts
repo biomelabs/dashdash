@@ -35,7 +35,7 @@ function sampleLogMessage(sample: {
 function appendLogRow(fragment: DocumentFragment, row: LogRow): void {
   const el = document.createElement("div");
   el.className =
-    "grid grid-cols-[64px_120px_1fr] gap-2.5 border-b border-border-grid-faint px-3.5 py-0.5 text-[11px] leading-6 max-sm:grid-cols-[52px_1fr]";
+    "grid grid-cols-[64px_200px_1fr] gap-2.5 border-b border-border-grid-faint px-3.5 py-0.5 text-[11px] leading-6 max-sm:grid-cols-[52px_1fr]";
 
   const t = document.createElement("span");
   t.className = "text-muted";
