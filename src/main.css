@@ -1,0 +1,255 @@
+@import "tailwindcss";
+
+@theme {
+    --font-mono: 'IBM Plex Mono', monospace;
+
+    --color-bg: var(--c-bg);
+    --color-surface: var(--c-surface);
+    --color-surface-raised: var(--c-surface-raised);
+    --color-border-grid: var(--c-border-grid);
+    --color-border-grid-faint: var(--c-border-grid-faint);
+    --color-border: var(--c-border);
+    --color-hex: var(--c-hex);
+    --color-muted: var(--c-muted);
+    --color-label: var(--c-label);
+    --color-text: var(--c-text);
+    --color-text-bright: var(--c-text-bright);
+    --color-accent: var(--c-accent);
+    --color-success: var(--c-success);
+    --color-cyan: var(--c-cyan);
+    --color-purple: var(--c-purple);
+    --color-danger: var(--c-danger);
+    --color-danger-light: var(--c-danger-light);
+    --color-accent-bg: var(--c-accent-bg);
+    --color-accent-bg-hover: var(--c-accent-bg-hover);
+    --color-accent-bg-subtle: var(--c-accent-bg-subtle);
+    --color-danger-bg: var(--c-danger-bg);
+    --color-danger-bg-subtle: var(--c-danger-bg-subtle);
+    --color-danger-border: var(--c-danger-border);
+}
+
+:root {
+    --c-bg: #07090d;
+    --c-surface: #0c1018;
+    --c-surface-raised: #111820;
+    --c-border-grid: #1a2535;
+    --c-border: #243040;
+    --c-hex: #2e4060;
+    --c-muted: #3d5068;
+    --c-label: #5c7088;
+    --c-text: #94a3b8;
+    --c-text-bright: #e2e8f0;
+    --c-accent: #f59e0b;
+    --c-success: #4ade80;
+    --c-cyan: #22d3ee;
+    --c-purple: #a78bfa;
+    --c-danger: #f87171;
+    --c-danger-light: #fca5a5;
+    --c-accent-bg: rgba(245, 158, 11, 0.12);
+    --c-accent-bg-hover: rgba(245, 158, 11, 0.25);
+    --c-accent-bg-active: rgba(245, 158, 11, 0.35);
+    --c-accent-bg-subtle: rgba(245, 158, 11, 0.08);
+    --c-danger-bg: rgba(248, 113, 113, 0.12);
+    --c-danger-bg-subtle: rgba(248, 113, 113, 0.08);
+    --c-danger-border: rgba(248, 113, 113, 0.25);
+    --c-cyan-bg: rgba(34, 211, 238, 0.12);
+    --c-accent-gradient-start: rgba(245, 158, 11, 0.22);
+    --c-success-fill: rgba(74, 222, 128, 0.07);
+    --c-purple-fill: rgba(167, 139, 250, 0.07);
+    --c-accent-fill: rgba(245, 158, 11, 0.07);
+    --c-cyan-fill: rgba(34, 211, 238, 0.07);
+    --c-muted-glow: rgba(61, 80, 104, 0.55);
+    --c-muted-glow-hover: rgba(61, 80, 104, 0.7);
+    --c-accent-glow: rgba(245, 158, 11, 0.65);
+    --c-accent-glow-hover: rgba(245, 158, 11, 0.8);
+    --c-success-glow: rgba(74, 222, 128, 0.7);
+    --c-success-glow-hover: rgba(74, 222, 128, 0.85);
+    --c-danger-glow: rgba(248, 113, 113, 0.65);
+    --c-danger-glow-hover: rgba(248, 113, 113, 0.8);
+    --c-accent-ring: rgba(245, 158, 11, 0.12);
+    --c-border-grid-faint: rgba(26, 37, 53, 0.6);
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+    height: 100%;
+}
+
+#app {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+body {
+    margin: 0;
+    overflow: hidden;
+    background: var(--c-bg);
+    color: var(--c-text);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+canvas {
+    display: block;
+    touch-action: pan-y;
+}
+
+button,
+input {
+    font: inherit;
+}
+
+.charts-area {
+    grid-auto-rows: minmax(120px, 1fr);
+}
+
+.stat-preview {
+    color: var(--c-accent) !important;
+}
+
+.scrub-total-behind {
+    color: var(--c-accent) !important;
+    cursor: pointer;
+}
+
+.packet-log-chevron {
+    width: 5px;
+    height: 5px;
+    border-left: 1px solid currentColor;
+    border-bottom: 1px solid currentColor;
+    transform: translateY(1px) rotate(135deg);
+    transition: transform 120ms ease;
+}
+
+.packet-log-chevron.is-open {
+    transform: translateY(-1px) rotate(-45deg);
+}
+
+::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--c-border-grid);
+    border-radius: 2px;
+}
+
+.scrub-range {
+    height: 20px;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+}
+
+.scrub-range:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+}
+
+.scrub-range::-webkit-slider-runnable-track {
+    height: 6px;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--c-accent-gradient-start), var(--c-cyan-bg));
+}
+
+.scrub-range::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: -6px;
+    appearance: none;
+    border: 1px solid var(--c-accent);
+    border-radius: 999px;
+    background: var(--c-surface);
+    box-shadow: 0 0 0 4px var(--c-accent-ring);
+}
+
+.scrub-range::-moz-range-track {
+    height: 6px;
+    border: 1px solid var(--c-border);
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--c-accent-gradient-start), var(--c-cyan-bg));
+}
+
+.scrub-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border: 1px solid var(--c-accent);
+    border-radius: 999px;
+    background: var(--c-surface);
+    box-shadow: 0 0 0 4px var(--c-accent-ring);
+}
+
+.log-resize-grip::before {
+    content: '';
+    width: 48px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--c-border);
+}
+
+.status-dot-disconnected {
+    box-shadow: 0 0 5px 1px var(--c-muted-glow);
+}
+
+.status-dot-connecting,
+.status-dot-cancelled {
+    box-shadow: 0 0 7px 1px var(--c-accent-glow);
+}
+
+.status-dot-connected {
+    box-shadow: 0 0 8px 2px var(--c-success-glow);
+}
+
+.status-dot-error {
+    box-shadow: 0 0 7px 1px var(--c-danger-glow);
+}
+
+.status-pill-btn:hover .status-dot-disconnected {
+    box-shadow: 0 0 6px 2px var(--c-muted-glow-hover);
+}
+
+.status-pill-btn:hover .status-dot-connecting,
+.status-pill-btn:hover .status-dot-cancelled {
+    box-shadow: 0 0 9px 2px var(--c-accent-glow-hover);
+}
+
+.status-pill-btn:hover .status-dot-connected {
+    box-shadow: 0 0 10px 3px var(--c-success-glow-hover);
+}
+
+.status-pill-btn:hover .status-dot-error {
+    box-shadow: 0 0 9px 2px var(--c-danger-glow-hover);
+}
+
+#btn-toggle-log {
+    background-color: var(--c-accent-bg);
+    color: var(--c-accent);
+    transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+
+    &:hover {
+        background-color: var(--c-accent-bg-hover);
+        border-color: var(--c-accent);
+        color: var(--c-accent);
+    }
+
+    &:active {
+        background-color: var(--c-accent-bg-active);
+        border-color: var(--c-accent);
+        color: var(--c-accent);
+    }
+}
