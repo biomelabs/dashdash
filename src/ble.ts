@@ -9,7 +9,8 @@ import {
   stopElapsedTimer,
   STATUS_LABELS,
 } from "./ui";
-import { SVC_RSC, CHR_MEAS } from "./rsc";
+import { SVC_RSC, CHR_MEAS, SVC_BAS, CHR_BAT_LEVEL } from "./rsc";
+import { updateConnectionBattery } from "./components/connection-dialog";
 import type { BleState, BleSupport, ConnectionState, Refs } from "./types";
 
 const SECURE_HOSTS = new Set(["localhost", "127.0.0.1", "[::1]"]);
@@ -20,6 +21,7 @@ let onScrubTick: (() => void) | null = null;
 
 let device: BluetoothDevice | null = null;
 let measurementChar: BluetoothRemoteGATTCharacteristic | null = null;
+let batteryChar: BluetoothRemoteGATTCharacteristic | null = null;
 let bleConnected = false;
 let connectionState: ConnectionState = "disconnected";
 let connectedAtMs: number | null = null;
@@ -108,11 +110,19 @@ export function applyBleSupportUI(support: BleSupport): void {
   refs.btnConnect.disabled = true;
 }
 
+function onBatteryLevelChanged(ev: Event): void {
+  const char = ev.target as BluetoothRemoteGATTCharacteristic;
+  const level = char.value!.getUint8(0);
+  updateConnectionBattery(level);
+}
+
 function onDrop(): void {
   const wasConnected = bleConnected;
   bleConnected = false;
   connectedAtMs = null;
   connectionState = "disconnected";
+  batteryChar = null;
+  updateConnectionBattery(null);
   setStatus("disconnected", STATUS_LABELS.disconnected);
   setConnectButton(false);
   refs.btnConnect.disabled = false;
@@ -135,6 +145,7 @@ export async function doConnect(): Promise<void> {
   try {
     device = await navigator.bluetooth.requestDevice({
       filters: [{ services: [SVC_RSC] }],
+      optionalServices: [SVC_BAS],
     });
 
     device.addEventListener("gattserverdisconnected", onDrop);
@@ -146,6 +157,18 @@ export async function doConnect(): Promise<void> {
       onPacketHandler!,
     );
     await measurementChar.startNotifications();
+
+    /* Battery Service is optional, ignore if device doesn't expose it */
+    try {
+      const batService = await server.getPrimaryService(SVC_BAS);
+      batteryChar = await batService.getCharacteristic(CHR_BAT_LEVEL);
+      batteryChar.addEventListener("characteristicvaluechanged", onBatteryLevelChanged);
+      await batteryChar.startNotifications();
+      const initVal = await batteryChar.readValue();
+      updateConnectionBattery(initVal.getUint8(0));
+    } catch {
+      updateConnectionBattery(null);
+    }
 
     await onBleConnected();
 

@@ -5,6 +5,17 @@ const VALUE = "text-text";
 
 const ROW = "grid grid-cols-[88px_minmax(0,1fr)] gap-2 px-3 py-1.5";
 
+const BATTERY_ICON = `
+    <div id="pill-battery" class="hidden shrink-0 flex items-center gap-1">
+        <div class="flex items-center">
+            <div class="relative flex h-2 w-5 overflow-hidden rounded-[1.5px] border border-current p-px">
+                <div id="pill-bat-fill" class="h-full rounded-[0.5px] bg-current transition-all duration-500" style="width:0%"></div>
+            </div>
+            <div class="-ml-px h-[5px] w-[2px] rounded-r-[0.5px] bg-current"></div>
+        </div>
+        <span id="pill-bat-pct" class="text-[9px] font-mono tabular-nums leading-none"></span>
+    </div>`;
+
 export function renderConnectionDialog(): string {
   return `
         <div id="connection-info" class="relative min-w-0">
@@ -18,6 +29,7 @@ export function renderConnectionDialog(): string {
             >
                 <span id="status-dot"></span>
                 <span id="status-text" class="truncate normal-case">DISCONNECTED</span>
+                ${BATTERY_ICON}
             </button>
             <div
                 id="connection-dialog-panel"
@@ -33,6 +45,10 @@ export function renderConnectionDialog(): string {
                     <div class="${ROW}">
                         <span class="${LABEL} uppercase tracking-[0.06em]">Device</span>
                         <span id="conn-device" class="${VALUE} truncate">${PLACEHOLDER}</span>
+                    </div>
+                    <div class="${ROW}">
+                        <span class="${LABEL} uppercase tracking-[0.06em]">Battery</span>
+                        <span id="conn-bat-pct" class="${VALUE}">${PLACEHOLDER}</span>
                     </div>
                     <div class="${ROW}">
                         <span class="${LABEL} uppercase tracking-[0.06em]">BLE ID</span>
@@ -105,4 +121,22 @@ export function updateConnectionDialog({
   if (connDevice) connDevice.textContent = deviceName ?? PLACEHOLDER;
   if (connId) connId.textContent = deviceId ?? PLACEHOLDER;
   if (connUptime) connUptime.textContent = uptime ?? PLACEHOLDER;
+}
+
+export function updateConnectionBattery(level: number | null): void {
+  const pillBattery = document.getElementById("pill-battery");
+  const pillFill = document.getElementById("pill-bat-fill");
+  const pillPct = document.getElementById("pill-bat-pct");
+  const rowPct = document.getElementById("conn-bat-pct");
+
+  if (level === null) {
+    pillBattery?.classList.add("hidden");
+    if (rowPct) rowPct.textContent = PLACEHOLDER;
+    return;
+  }
+
+  pillBattery?.classList.remove("hidden");
+  if (pillFill) (pillFill as HTMLElement).style.width = `${level}%`;
+  if (pillPct) pillPct.textContent = `${level}%`;
+  if (rowPct) rowPct.textContent = `${level}%`;
 }

@@ -1,6 +1,9 @@
 export const SVC_RSC = 0x1814;
 export const CHR_MEAS = 0x2a53;
 
+export const SVC_BAS = 0x180f;
+export const CHR_BAT_LEVEL = 0x2a19;
+
 export interface ParsedRSC {
   speed: number;
   cadence: number;
