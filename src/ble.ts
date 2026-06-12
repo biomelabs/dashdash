@@ -143,10 +143,21 @@ export async function doConnect(): Promise<void> {
   refs.btnConnect.disabled = true;
 
   try {
-    device = await navigator.bluetooth.requestDevice({
-      filters: [{ services: [SVC_RSC] }],
-      optionalServices: [SVC_BAS],
-    });
+    let hasBatteryAccess = true;
+    try {
+      device = await navigator.bluetooth.requestDevice({
+        filters: [{ services: [SVC_RSC] }],
+        optionalServices: [SVC_BAS],
+      });
+    } catch (e) {
+      const err = e as Error;
+      if (err.name === "NotFoundError" || err.name === "AbortError") throw e;
+      /* some browsers may reject optionalServices, retry without */
+      hasBatteryAccess = false;
+      device = await navigator.bluetooth.requestDevice({
+        filters: [{ services: [SVC_RSC] }],
+      });
+    }
 
     device.addEventListener("gattserverdisconnected", onDrop);
     const server = await device.gatt!.connect();
@@ -159,15 +170,20 @@ export async function doConnect(): Promise<void> {
     await measurementChar.startNotifications();
 
     /* Battery Service is optional, ignore if device doesn't expose it */
-    try {
-      const batService = await server.getPrimaryService(SVC_BAS);
-      batteryChar = await batService.getCharacteristic(CHR_BAT_LEVEL);
-      batteryChar.addEventListener("characteristicvaluechanged", onBatteryLevelChanged);
-      await batteryChar.startNotifications();
-      const initVal = await batteryChar.readValue();
-      updateConnectionBattery(initVal.getUint8(0));
-    } catch {
-      updateConnectionBattery(null);
+    if (hasBatteryAccess) {
+      try {
+        const batService = await server.getPrimaryService(SVC_BAS);
+        batteryChar = await batService.getCharacteristic(CHR_BAT_LEVEL);
+        batteryChar.addEventListener(
+          "characteristicvaluechanged",
+          onBatteryLevelChanged,
+        );
+        await batteryChar.startNotifications();
+        const initVal = await batteryChar.readValue();
+        updateConnectionBattery(initVal.getUint8(0));
+      } catch {
+        updateConnectionBattery(null);
+      }
     }
 
     await onBleConnected();
